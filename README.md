@@ -79,4 +79,9 @@ $ kubectl port-forward svc/istio-ingressgateway -n istio-system 8080:80
 
 9. Log in with default user name `user@example.com` and the password `12341234`.
 
-10. Congratulations! You can now start experimenting and running your end-to-end ML workflows with Kubeflow.
+10. Allow Jupyter notebook access to ml pipelines
+```
+$ kubectl apply -f access-kfp-notebook-access.yaml
+```
+
+11. Congratulations! You can now start experimenting and running your end-to-end ML workflows with Kubeflow.
