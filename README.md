@@ -53,7 +53,7 @@ kubectl create secret generic regcred \
     --type=kubernetes.io/dockerconfigjson
 ```
 
-5. Copy the kustomization.yaml from this repo and paste it into your `example/kustomization.yaml` to allow only the jupyter notebook functionalities.
+5. Copy the `kustomization-xxx.yaml` (based on your needs) from this repo and paste it into your `example/kustomization.yaml` to allow only the jupyter notebook functionalities.
 
 
 6. Then install all Kubeflow components using this `example/kustomization.yaml`
