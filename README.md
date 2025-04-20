@@ -1,7 +1,7 @@
 # kubeflow-kind-local-setup
 Small tutorial to get a local version of kubeflow running (just with Jupyter notebooks)
 
-## Prerequisites
+## Prerequisites for Docker Desktop (Settings->Resources)
 - 16 GB of RAM recommended.
 - 8 CPU cores recommended.
 - `kind` version 0.27+.
