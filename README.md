@@ -101,6 +101,10 @@ and log in with username `minioDev` and pw `minioDevPass123`
 12. Add mlflow using community helm chart
 Taken from https://artifacthub.io/packages/helm/community-charts/mlflow
 
+Prerequisites:
+1. Minio running
+2. Postgres managed instance running
+
 Add the repo
 ```
 $ helm repo add community-charts https://community-charts.github.io/helm-charts
@@ -125,5 +129,6 @@ helm upgrade --install mlflow community-charts/mlflow --version 0.16.4 --namespa
   --set serviceMonitor.enabled=true 
 ```
 
+13. 🎉 Congratulations! You can now start experimenting and running your end-to-end ML workflows with Kubeflow and Minio
 
-13. Congratulations! You can now start experimenting and running your end-to-end ML workflows with Kubeflow and Minio
+![alt text](infrastructure.png "Infrastructure")
