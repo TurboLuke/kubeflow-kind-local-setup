@@ -84,17 +84,46 @@ $ kubectl port-forward svc/istio-ingressgateway -n istio-system 8080:80
 $ kubectl apply -f access-kfp-notebook-access.yaml
 ```
 
-11. Add minio to cluster
+11. Add minio to the cluster
 
 ```
 $ kubectl apply -f minio-deployment.yaml
 ```
 
+Open the ports for minio web and api to check if working
 ```
 $ kubectl port-forward -n kubeflow-user-example-com svc/minio 9000:9000 9090:9090
 ```
+and log in with username `minioDev` and pw `minioDevPass123` 
 
-log in with username `minioDev` and pw `minioDevPass123` 
+‼️ IMPORTANT ‼️: Make sure to stop the port forwarding again, because minio should only be accessible inside the cluster!!!
+
+12. Add mlflow using community helm chart
+Taken from https://artifacthub.io/packages/helm/community-charts/mlflow
+
+Add the repo
+```
+$ helm repo add community-charts https://community-charts.github.io/helm-charts
+$ helm repo update
+````
+
+Install the chart
+```
+helm upgrade --install mlflow community-charts/mlflow --version 0.16.4 --namespace kubeflow-user-example-com \
+  --set backendStore.databaseMigration=true \
+  --set backendStore.postgres.enabled=true \
+  --set backendStore.postgres.host=<HOST>\
+  --set backendStore.postgres.port=<PORT> \
+  --set backendStore.postgres.database=<DB_NAME> \
+  --set backendStore.postgres.user=<PG_USER>  \
+  --set backendStore.postgres.password=<PG_PASSWORD>  \
+  --set artifactRoot.s3.enabled=true \
+  --set artifactRoot.s3.bucket=mlflow \
+  --set artifactRoot.s3.awsAccessKeyId=minioDev \
+  --set artifactRoot.s3.awsSecretAccessKey=minioDevPass123 \
+  --set extraEnvVars.MLFLOW_S3_ENDPOINT_URL=http://minio.kubeflow-user-example-com.svc:9000 
+  --set serviceMonitor.enabled=true 
+```
 
 
-12. Congratulations! You can now start experimenting and running your end-to-end ML workflows with Kubeflow and Minio
+13. Congratulations! You can now start experimenting and running your end-to-end ML workflows with Kubeflow and Minio
