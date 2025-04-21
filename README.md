@@ -1,5 +1,5 @@
 # kubeflow-kind-local-setup
-Small tutorial to get a local version of kubeflow running (just with Jupyter notebooks)
+Small tutorial to get a local version of kubeflow running
 
 ## Prerequisites for Docker Desktop (Settings->Resources)
 - 16 GB of RAM recommended.
