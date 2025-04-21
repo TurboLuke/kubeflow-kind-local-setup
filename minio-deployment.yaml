@@ -1,0 +1,72 @@
+###############################################################################
+# MinIO Deployment – 1 Replica, direkt auf dem Control‑Plane‑Node
+###############################################################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio
+  namespace: kubeflow-user-example-com   # ← ggf. ändern
+  labels:
+    app: minio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+      # Istio darf injizieren, weil wir Ports unten angeben.
+      # Falls du es lieber deaktivierst, füge hier an:
+      # annotations:
+      #   sidecar.istio.io/inject: "false"
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: kubeflow-control-plane   # ← Node‑Label
+      containers:
+      - name: minio
+        image: quay.io/minio/minio:latest
+        command: ["/bin/bash", "-c"]
+        args:
+          - minio server /data --console-address :9090
+        env:
+        - name: MINIO_ROOT_USER
+          value: "minioDev"            # ← nur für DEV
+        - name: MINIO_ROOT_PASSWORD
+          value: "minioDevPass123"     # ← nur für DEV
+        ports:
+        - name: api
+          containerPort: 9000          # S3‑API
+        - name: console
+          containerPort: 9090          # Web‑UI
+        volumeMounts:
+        - name: localvolume
+          mountPath: /data
+      volumes:
+      - name: localvolume
+        hostPath:
+          path: /mnt/disk1/data        # ← lokales Laufwerk auf dem Node
+          type: DirectoryOrCreate
+
+---
+###############################################################################
+# Service – routet Port 9000 (API) und 9090 (Console) zum Pod
+###############################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio
+  namespace: kubeflow-user-example-com
+  labels:
+    app: minio
+spec:
+  selector:
+    app: minio
+  ports:
+  - name: api
+    port: 9000
+    targetPort: api
+  - name: console
+    port: 9090
+    targetPort: console

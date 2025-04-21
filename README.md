@@ -85,3 +85,18 @@ $ kubectl apply -f access-kfp-notebook-access.yaml
 ```
 
 11. Congratulations! You can now start experimenting and running your end-to-end ML workflows with Kubeflow.
+
+
+
+12. Add minio to cluster
+
+```
+$ kubectl apply -f minio-deployment.yaml
+```
+
+```
+$ kubectl port-forward -n kubeflow-user-example-com svc/minio 9000:9000 9090:9090
+```
+
+log in with username `minioDev` and pw `minioDevPass123` 
+
