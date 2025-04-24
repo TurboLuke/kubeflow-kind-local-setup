@@ -131,4 +131,15 @@ helm upgrade --install mlflow community-charts/mlflow --version 0.16.4 --namespa
 
 13. 🎉 Congratulations! You can now start experimenting and running your end-to-end ML workflows with Kubeflow and Minio
 
+
+
+
 ![alt text](infrastructure.png "Infrastructure")
+
+
+## Setup basic ml lifecylce (mnist)
+
+
+1. Add new Jupyter notebook server in Kubeflow (minimum resources: 2 CPUs, 4 GB RAM)
+2. Use `notebooks/mnist_keras.ipynb` and execute it
+3. 🎉 After this run the metrics and the model should be stored in mlflow
