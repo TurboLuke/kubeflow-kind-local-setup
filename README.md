@@ -137,7 +137,7 @@ helm upgrade --install mlflow community-charts/mlflow --version 0.16.4 --namespa
 ![alt text](infrastructure.png "Infrastructure")
 
 
-## Setup basic ml lifecylce (mnist)
+## Setup basic ml lifecylce (mnist training)
 
 
 1. Add new Jupyter notebook server in Kubeflow (minimum resources: 2 CPUs, 4 GB RAM)
