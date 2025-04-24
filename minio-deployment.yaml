@@ -1,11 +1,11 @@
 ###############################################################################
-# MinIO Deployment – 1 Replica, direkt auf dem Control‑Plane‑Node
+# MinIO Deployment – 1 Replica, with Console exposed properly on port 9090
 ###############################################################################
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: minio
-  namespace: kubeflow-user-example-com   # ← ggf. ändern
+  namespace: kubeflow-user-example-com
   labels:
     app: minio
 spec:
@@ -17,41 +17,43 @@ spec:
     metadata:
       labels:
         app: minio
-      # Istio darf injizieren, weil wir Ports unten angeben.
-      # Falls du es lieber deaktivierst, füge hier an:
-      # annotations:
-      #   sidecar.istio.io/inject: "false"
+      # annotations: # With this it does not work
+      #  sidecar.istio.io/inject: "false"
     spec:
       nodeSelector:
-        kubernetes.io/hostname: kubeflow-control-plane   # ← Node‑Label
+        kubernetes.io/hostname: kubeflow-control-plane
       containers:
       - name: minio
         image: quay.io/minio/minio:latest
-        command: ["/bin/bash", "-c"]
         args:
-          - minio server /data --console-address :9090
+          - server
+          - /data
         env:
         - name: MINIO_ROOT_USER
-          value: "minioDev"            # ← nur für DEV
+          value: "minioDev"
         - name: MINIO_ROOT_PASSWORD
-          value: "minioDevPass123"     # ← nur für DEV
+          value: "minioDevPass123"
+        - name: MINIO_SERVER_URL
+          value: "http://minio.kubeflow-user-example-com.svc:9000"
+        - name: MINIO_CONSOLE_ADDRESS
+          value: ":9090"
         ports:
         - name: api
-          containerPort: 9000          # S3‑API
+          containerPort: 9000
         - name: console
-          containerPort: 9090          # Web‑UI
+          containerPort: 9090
         volumeMounts:
         - name: localvolume
           mountPath: /data
       volumes:
       - name: localvolume
         hostPath:
-          path: /mnt/disk1/data        # ← lokales Laufwerk auf dem Node
+          path: /mnt/disk1/data
           type: DirectoryOrCreate
 
 ---
 ###############################################################################
-# Service – routet Port 9000 (API) und 9090 (Console) zum Pod
+# Service – exposes 9000 (API) and 9090 (Console)
 ###############################################################################
 apiVersion: v1
 kind: Service
