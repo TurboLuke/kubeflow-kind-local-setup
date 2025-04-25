@@ -1,6 +1,9 @@
 # kubeflow-kind-local-setup
 Small tutorial to get a local version of kubeflow running
 
+## Target Infrastructure
+![alt text](infrastructure.png "Infrastructure")
+
 ## Prerequisites for Docker Desktop (Settings->Resources)
 - 16 GB of RAM recommended.
 - 8 CPU cores recommended.
@@ -10,7 +13,7 @@ Small tutorial to get a local version of kubeflow running
     - `sudo sysctl fs.inotify.max_user_instances=2280`
     - `sudo sysctl fs.inotify.max_user_watches=1255360`
  
-## step by step tutorial
+## Step by Step Tutorial
 (adapted from https://github.com/kubeflow/manifests/tree/master?tab=readme-ov-file#install-with-a-single-command)
 
 1. Clone kubeflow manifests repo and cd into it
@@ -133,13 +136,9 @@ helm upgrade --install mlflow community-charts/mlflow --version 0.16.4 --namespa
 
 
 
-
-![alt text](infrastructure.png "Infrastructure")
-
-
 ## Setup basic ml lifecylce (mnist training)
 
 
 1. Add new Jupyter notebook server in Kubeflow (minimum resources: 2 CPUs, 4 GB RAM)
 2. Use `notebooks/mnist_keras.ipynb` and execute it
-3. 🎉 After this run the metrics and the model should be stored in mlflow
+3. 🎉 After this run the metrics and the model should be visible in mlflow
