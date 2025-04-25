@@ -18,7 +18,7 @@ spec:
       labels:
         app: minio
       # annotations: # With this it does not work
-      #  sidecar.istio.io/inject: "false"
+      #  sidecar.istio.io/inject: "false" 
     spec:
       nodeSelector:
         kubernetes.io/hostname: kubeflow-control-plane
@@ -30,9 +30,9 @@ spec:
           - /data
         env:
         - name: MINIO_ROOT_USER
-          value: "minioDev"
+          value: "minioDev" # DO NOT DO THIS IN PRODUCTION, just for demo purposes
         - name: MINIO_ROOT_PASSWORD
-          value: "minioDevPass123"
+          value: "minioDevPass123" # DO NOT DO THIS IN PRODUCTION, just for demo purposes
         - name: MINIO_SERVER_URL
           value: "http://minio.kubeflow-user-example-com.svc:9000"
         - name: MINIO_CONSOLE_ADDRESS
