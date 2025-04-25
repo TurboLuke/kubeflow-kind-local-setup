@@ -58,10 +58,12 @@ kubectl create secret generic regcred \
     --type=kubernetes.io/dockerconfigjson
 ```
 
-5. Copy the `kustomization-xxx.yaml` (based on your needs) from this repo and paste it into your `example/kustomization.yaml` to allow only the jupyter notebook functionalities.
+5. From the `manifests` folder, cd into `example`
+```sh
+cd example
+```
 
-
-6. Then install all Kubeflow components using this `example/kustomization.yaml`
+6. Then install all Kubeflow components using this `kustomization.yaml`
 ```sh
 while ! kustomize build example | kubectl apply --server-side --force-conflicts -f -; do echo "Retrying to apply resources"; sleep 20; done
 ```
