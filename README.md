@@ -1,6 +1,8 @@
 # kubeflow-kind-local-setup
 Small tutorial to get a local version of kubeflow running
 
+‼️ Disclaimer ‼️: This is a local setup for testing and DEMO purposes only and should NOT be used in production. The setup uses plain text passwords and no secrets management. Please use this setup at your own risk and do not use it for any sensitive data or production workloads.
+
 ## Target Infrastructure
 ![alt text](infrastructure.png "Infrastructure")
 
