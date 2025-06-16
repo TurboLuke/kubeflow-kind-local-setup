@@ -20,7 +20,7 @@ Simple tutorial to get a local version of kubeflow up and running using kind
 
 1. Clone kubeflow manifests repo and cd into it
 ```
-$ git clone https://github.com/kubeflow/manifests/tree/master
+$ git clone https://github.com/kubeflow/manifests
 
 $ cd manifests
 ```
@@ -65,6 +65,8 @@ cd example
 
 6. Then install all Kubeflow components using this `kustomization.yaml`
 ```sh
+cd ..
+
 while ! kustomize build example | kubectl apply --server-side --force-conflicts -f -; do echo "Retrying to apply resources"; sleep 20; done
 ```
 
